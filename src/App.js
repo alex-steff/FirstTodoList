@@ -2,19 +2,43 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
+  const [keyIndex, setKeyIndex] = useState(0);
   const [todoList, setTodoList] = useState([]);
-  const [newTask, setNewTask] = useState("");
+  const [newTask, setNewTask] = useState(
+    {
+      id: -1,
+      title: ''
+    }
+  );
+
+  const getNewKeyIndex = () => {
+    const newKeyIndex = keyIndex + 1;
+    setKeyIndex(newKeyIndex);
+    return newKeyIndex;
+  }
   
   const handleChange = (event) => {
-    setNewTask(event.target.value);
+    setNewTask(
+      {
+        id: -1,
+        title: event.target.value
+      }
+    );
   } 
 
   const addTask = () => {
+    setNewTask(
+      {
+        id: getNewKeyIndex(),
+        title: newTask.title
+      }
+    );
+
     setTodoList([...todoList, newTask]);
   }
 
-  const deleteTask = (taskName) => {
-    setTodoList(todoList.filter((task) => task !== taskName));
+  const deleteTask = (taskObj) => {
+    setTodoList(todoList.filter((task) => task.id !== taskObj.id));
   }
 
   return (
@@ -26,8 +50,8 @@ function App() {
       <div className="list">
         { todoList.map((task) => {
           return (
-            <div>
-              <h1>{task}</h1>
+            <div key={task.id}>
+              <h1>{task.title}</h1>
               <button onClick={() => deleteTask(task)}> X </button>
             </div>
           );
