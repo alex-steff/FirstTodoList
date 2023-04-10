@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState } from "react";
+import { Task } from "./Task"
 
 function App() {
   const [keyIndex, setKeyIndex] = useState(0);
@@ -50,10 +51,7 @@ function App() {
       <div className="list">
         { todoList.map((task) => {
           return (
-            <div key={task.id}>
-              <h1>{task.title}</h1>
-              <button onClick={() => deleteTask(task)}> X </button>
-            </div>
+            <Task title={task.title} id={task.id} deleteTask={deleteTask}/>
           );
         })}
       </div>
