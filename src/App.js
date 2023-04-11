@@ -8,7 +8,7 @@ function App() {
   const [newTask, setNewTask] = useState(
     {
       id: -1,
-      title: ''
+      title: ' '
     }
   );
 
