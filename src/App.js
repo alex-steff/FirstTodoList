@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Task } from "./Task"
 
 function App() {
@@ -12,9 +12,15 @@ function App() {
     }
   );
 
+  useEffect(()=> {
+    if(todoList.length <= 0) return;
+    console.log("todo list: ", todoList);
+  }, [todoList.length]);
+
   const getNewKeyIndex = () => {
     const newKeyIndex = keyIndex + 1;
     setKeyIndex(newKeyIndex);
+    console.log(newKeyIndex);
     return newKeyIndex;
   }
   
@@ -28,14 +34,22 @@ function App() {
   } 
 
   const addTask = () => {
+    const newId = getNewKeyIndex();
+    console.log("new id:", newId);
+    // setNewTask(
+    //   {
+    //     id: newId,
+    //     title: newTask.title
+    //   }
+    // );
+    const newT = {
+      id:newId,
+      title:newTask.title
+    }
     setNewTask(
-      {
-        id: getNewKeyIndex(),
-        title: newTask.title
-      }
+      newT
     );
-
-    setTodoList([...todoList, newTask]);
+    setTodoList((currList)=>[...currList, newT]);
   }
 
   const deleteTask = (taskObj) => {
@@ -51,7 +65,7 @@ function App() {
       <div className="list">
         { todoList.map((task) => {
           return (
-            <Task title={task.title} id={task.id} deleteTask={deleteTask}/>
+            <Task title={task.title} id={task.id} deleteTask={deleteTask} key={task.id}/>
           );
         })}
       </div>

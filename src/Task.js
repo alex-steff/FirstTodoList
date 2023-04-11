@@ -1,8 +1,17 @@
+import { useEffect } from "react";
+
 export const Task = (props) => {
+    useEffect(()=>{
+        console.log("Task mounted: ", props.id);
+        return (()=> {
+            console.log("Task was unmounted: ", props.title);
+        });
+    }, []);
     return (
-        <div key={props.id}>
+        <div>
             <h1>{props.title}</h1>
-            <button onClick={() => deleteTask(props)}> X </button>
+            <h1>{props.id}</h1>
+            <button onClick={() => props.deleteTask(props)}> X </button>
         </div>
     );
 }
