@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { Task } from "./Task"
+import { Task } from "./Task";
+import axios from "axios";
 
 function App() {
   const [keyIndex, setKeyIndex] = useState(0);
@@ -16,6 +17,16 @@ function App() {
     if(todoList.length <= 0) return;
     console.log("todo list: ", todoList);
   }, [todoList.length]);
+
+  useEffect (()=> {
+    axios.get("https://jsonplaceholder.typicode.com/todos", {
+      params: {
+        fields: "title,id"
+      }
+    }).then((result) => {
+      setTodoList(result.data);
+    });
+  }, []);
 
   const getNewKeyIndex = () => {
     const newKeyIndex = keyIndex + 1;
