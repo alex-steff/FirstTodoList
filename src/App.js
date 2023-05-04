@@ -2,6 +2,9 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import { Task } from "./Task";
 import axios from "axios";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+import Todos from "./components/Todos";
 
 function App() {
   const [keyIndex, setKeyIndex] = useState(0);
@@ -18,15 +21,15 @@ function App() {
     console.log("todo list: ", todoList);
   }, [todoList.length]);
 
-  useEffect (()=> {
-    axios.get("https://jsonplaceholder.typicode.com/todos", {
-      params: {
-        fields: "title,id"
-      }
-    }).then((result) => {
-      setTodoList(result.data);
-    });
-  }, []);
+  // useEffect (()=> {
+  //   axios.get("https://jsonplaceholder.typicode.com/todos", {
+  //     params: {
+  //       fields: "title,id"
+  //     }
+  //   }).then((result) => {
+  //     setTodoList(result.data);
+  //   });
+  // }, []);
 
   const getNewKeyIndex = () => {
     const newKeyIndex = keyIndex + 1;
@@ -47,12 +50,6 @@ function App() {
   const addTask = () => {
     const newId = getNewKeyIndex();
     console.log("new id:", newId);
-    // setNewTask(
-    //   {
-    //     id: newId,
-    //     title: newTask.title
-    //   }
-    // );
     const newT = {
       id:newId,
       title:newTask.title
@@ -68,19 +65,23 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <div className="addTask">
-        <input onChange={handleChange} />
-        <button onClick={addTask}> Add Task </button>
-      </div>
-      <div className="list">
-        { todoList.map((task) => {
-          return (
-            <Task title={task.title} id={task.id} deleteTask={deleteTask} key={task.id}/>
-          );
-        })}
-      </div>
-    </div>
+    <Provider store={store}>
+      {/* <div className="App">
+        <div className="addTask">
+          <input onChange={handleChange} />
+          <button onClick={addTask}> Add Task </button>
+          <Counter/>
+        </div>
+        <div className="list">
+          { todoList.map((task) => {
+            return (
+              <Task title={task.title} id={task.id} deleteTask={deleteTask} key={task.id}/>
+            );
+          })}
+        </div>
+      </div> */}
+      <Todos/>
+    </Provider>
   )
 }
 
