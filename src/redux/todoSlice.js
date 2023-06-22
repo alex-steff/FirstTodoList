@@ -4,6 +4,11 @@ const todoSlice = createSlice({
     name: "todos",
     initialState:[],
     reducers: {
+        setTodos:(state,action) => {
+            const todos = action.payload;
+
+            return [...todos]
+        },
         addTodo: (state, action) => {
             console.log(action);
             const id = state.length + 1;
@@ -11,12 +16,10 @@ const todoSlice = createSlice({
                 id,
                 title:action.payload
             }
-            console.log(todo);
             return state.concat(todo);
         },
         removeTodo:(state,action)=>{
-            const id = action.payload.id;
-            console.log(id);
+            const id = action.payload;
             return state.filter((todo)=> todo.id !== id);
         },
         editTodo: (state, action) => {
@@ -36,5 +39,5 @@ const todoSlice = createSlice({
     }
 });
 
-export const {addTodo, removeTodo, editTodo} = todoSlice.actions;
+export const {addTodo, removeTodo, editTodo,setTodos} = todoSlice.actions;
 export default todoSlice.reducer;
